@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import Capacitor
 
 /**
@@ -10,8 +11,8 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "PrivacyScreenPlugin"
     public let jsName = "PrivacyScreen"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "enable", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "disable", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "enable", returnType: .promise),
+        CAPPluginMethod(name: "disable", returnType: .promise)
     ]
     private var implementation: PrivacyScreen?
 

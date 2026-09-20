@@ -3,14 +3,13 @@ import XCTest
 
 class PrivacyScreenTests: XCTestCase {
 
-    func testEcho() {
-        // This is an example of a functional test case for a plugin.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    // The template's echo test referred to an API this plugin never had, so the target did not compile.
+    func testConfigDefaults() {
+        let config = PrivacyScreenConfig()
 
-        let implementation = PrivacyScreen()
-        let value = "Hello, World!"
-        let result = implementation.echo(value)
-
-        XCTAssertEqual(value, result)
+        XCTAssertTrue(config.enable)
+        XCTAssertEqual("", config.imageName)
+        XCTAssertEqual("center", config.contentMode)
+        XCTAssertEqual(true, config.preventScreenshots)
     }
 }

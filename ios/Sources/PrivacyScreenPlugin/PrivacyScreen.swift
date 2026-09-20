@@ -35,11 +35,7 @@ import UIKit
             screenPrevent.centerYAnchor.constraint(equalTo: mainWindow.centerYAnchor).isActive = true
             screenPrevent.centerXAnchor.constraint(equalTo: mainWindow.centerXAnchor).isActive = true
             mainWindow.layer.superlayer?.addSublayer(screenPrevent.layer)
-            if #available(iOS 17.0, *) {
-                screenPrevent.layer.sublayers?.last?.addSublayer(mainWindow.layer)
-            } else {
-                screenPrevent.layer.sublayers?.first?.addSublayer(mainWindow.layer)
-            }
+            screenPrevent.layer.sublayers?.last?.addSublayer(mainWindow.layer)
         }
     }
 
