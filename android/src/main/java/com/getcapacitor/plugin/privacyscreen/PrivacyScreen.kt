@@ -1,5 +1,6 @@
 package com.getcapacitor.plugin.privacyscreen
 
+import android.os.Looper
 import android.view.WindowManager
 
 public class PrivacyScreen(private val plugin: PrivacyScreenPlugin, config: PrivacyScreenConfig) {
@@ -10,16 +11,28 @@ public class PrivacyScreen(private val plugin: PrivacyScreenPlugin, config: Priv
     }
 
     public fun enable(callback: EnableCallback) {
-        plugin.bridge.executeOnMainThread {
+        onMainThread {
             addFlags()
             callback.success()
         }
     }
 
     public fun disable(callback: DisableCallback) {
-        plugin.bridge.executeOnMainThread {
+        onMainThread {
             clearFlags()
             callback.success()
+        }
+    }
+
+    /**
+     * Runs [block] right away on the main thread, and posts it to the main thread from any other thread.
+     * PrivacyScreenPlugin calls from the main thread, so what changing the window throws rejects its call.
+     */
+    private inline fun onMainThread(crossinline block: () -> Unit) {
+        if (Looper.getMainLooper().isCurrentThread) {
+            block()
+        } else {
+            plugin.bridge.executeOnMainThread { block() }
         }
     }
 
