@@ -10,9 +10,11 @@ import Capacitor
 public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "PrivacyScreenPlugin"
     public let jsName = "PrivacyScreen"
+    // enable and disable stay synchronous: they record the state right away on the bridge queue and hand the UIKit
+    // work to the main queue in the order of the calls, so the last call wins. Async methods would not keep that order.
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "enable", returnType: .promise),
-        CAPPluginMethod(name: "disable", returnType: .promise)
+        .promise("enable", PrivacyScreenPlugin.enable),
+        .promise("disable", PrivacyScreenPlugin.disable)
     ]
     private var implementation: PrivacyScreen?
 
@@ -36,13 +38,13 @@ public class PrivacyScreenPlugin: CAPPlugin, CAPBridgedPlugin {
         NotificationCenter.default.removeObserver(self)
     }
 
-    @objc func enable(_ call: CAPPluginCall) {
+    func enable(_ call: CAPPluginCall) {
         implementation?.enable(completion: {
             call.resolve()
         })
     }
 
-    @objc func disable(_ call: CAPPluginCall) {
+    func disable(_ call: CAPPluginCall) {
         implementation?.disable(completion: {
             call.resolve()
         })
